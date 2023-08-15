@@ -13,7 +13,7 @@ const UserForm = (props) => {
     const [passError, setPassError] = useState("");
     const [confPassError, setConfPassError] = useState("");
     const handleFirstName = (e) => {
-        setFirstName(e.target.value);
+        setFirstName(e.target.value)
         if (e.target.value.length < 1) {
             setFirstError("Name is Required");
         }
@@ -129,8 +129,8 @@ const UserForm = (props) => {
                 <input type="password" value={confPassword} onChange={(e) => setConfPassword(e.target.value)} onChange={handleConfPassword} /> <br />
                 {
                     confPassError ?
-                    <p>{confPassError}</p>:
-                    ''
+                        <p>{confPassError}</p> :
+                        ''
                 }
                 <input type="submit" value="Create User" />
             </div>

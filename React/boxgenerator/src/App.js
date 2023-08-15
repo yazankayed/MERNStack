@@ -11,7 +11,6 @@ function App() {
 
   const youveGotColor = (newColor) => {
     setCurrentColor( newColor );
-
   }
 
   return (

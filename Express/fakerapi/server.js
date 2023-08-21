@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 8001;
+const port = 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -10,7 +10,7 @@ const { faker } = require('@faker-js/faker');
 const createUser = () => {
     const newFakeUser = {
         _id: faker.string.uuid(),
-        firstName: faker.person.firstName(), 
+        firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
         phoneNumber: faker.phone.number(),
         email: faker.internet.email(),
@@ -44,15 +44,15 @@ const newFakeCompanys = createCompany();
 console.log(newFakeCompanys);
 
 app.get("/api/users/new", (req, res) => {
-    res.json( createUser() );
+    res.json(createUser());
 });
 
 app.get("/api/company/new", (req, res) => {
-    res.json( createCompany() );
+    res.json(createCompany());
 });
 
 app.get("/api/user/company", (req, res) => {
-    res.json( {Company :createCompany() , User : createUser()} );
+    res.json({ Company: createCompany(), User: createUser() });
 });
 
 // this needs to be below the other code blocks

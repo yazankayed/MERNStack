@@ -23,7 +23,7 @@ module.exports.findOneJoke = (req, res) => {
 module.exports.createNewJoke = (req, res) => {
     Joke.create(req.body)
         .then(newlyCreatedJoke => {
-            res.json({ joke: newlyCreatedJoke })
+            res.json({ message: "Yesssssssssssssssss" })
         })
         .catch((err) => {
             res.json(err)

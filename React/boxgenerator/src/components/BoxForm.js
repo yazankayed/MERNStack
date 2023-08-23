@@ -8,7 +8,7 @@ const BoxForm = (props) => {
         e.preventDefault();
         props.youveGotColor(color);
 
-        props.colors.push(color);
+        // props.colors.push(color);
         // console.log(typeof (props.currentMsg.allcolors));
         // what should we do with the message?
     };

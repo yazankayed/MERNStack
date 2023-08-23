@@ -6,18 +6,17 @@ import BoxForm from './components/BoxForm';
 
 
 function App() {
-  const [colors, SetColors] = useState([]);
+  const [colors, setColors] = useState([]);
   const [currentColor, setCurrentColor] = useState("");
 
   const youveGotColor = (newColor) => {
-    setCurrentColor( newColor );
+    setColors(colors.push(newColor));
   }
 
   return (
     <>
       <BoxForm
-        colors={colors}
-        youveGotColor={youveGotColor} 
+        youveGotColor={youveGotColor}
       />
       {console.log(currentColor)}
       {console.log(colors)}

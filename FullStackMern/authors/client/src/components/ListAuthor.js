@@ -36,20 +36,23 @@ const ListAuthor = (props) => {
 
             <h2>We have quotes by:</h2>
             <table>
+                <tbody>
+
                 <tr>
                     <th>Author Name</th>
                     <th>Actions Available</th>
                 </tr>
 
             {listAllAuthors.map( (person, i) =>
-            <tr>
-                <td key={i}>{person.fullName}</td>
-                <td key={i}><Link to={"/authors/" + person._id + "/edit"}>Edit</Link> <button onClick={(e)=>{deleteAuthor(person._id)}}>
-                        Delete
+            <tr key={i}>
+                <td >{person.fullName}</td>
+                <td ><Link to={"/authors/" + person._id + "/edit"}>Edit</Link> <button onClick={(e)=>{deleteAuthor(person._id)}}>
+                    Delete
                     </button> </td>
             </tr>
                 
                 )}
+                </tbody>
 
                 </table>
         </div>

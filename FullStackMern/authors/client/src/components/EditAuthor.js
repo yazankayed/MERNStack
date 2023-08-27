@@ -47,7 +47,7 @@ const EditAuthor = (props) => {
         <div>
             <Link to={"/authors"}>Home</Link>
             <h2>Edit an Author</h2>
-            {errors.map((err, index) => <p key={index}>{err}</p>)}
+            {errors.map((err, index) => <p style={{ color: "red" }} key={index}>{err}</p>)}
             <form onSubmit={updateAuthor}>
                 <p>
                     <label>Name</label><br />

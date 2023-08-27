@@ -6,6 +6,7 @@ module.exports = function(app){
     app.get('/api/players/:id', PlayerController.getPlayer);
     app.patch('/api/players/:id', PlayerController.updatePlayer);
     app.delete('/api/players/:id', PlayerController.deletePlayer);
+    app.put('/api/players/:id', PlayerController.updatePlayer);
 
 
 

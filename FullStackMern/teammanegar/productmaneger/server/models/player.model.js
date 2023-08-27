@@ -8,6 +8,10 @@ const PlayerSchema = new mongoose.Schema({
         ],
         minlength:[2,"Thelength should be at least 2 charecters"]
     },
-    preferredPosition: { type: String }
-}, { timestamps: true });
+    preferredPosition: { type: String },
+    status: {
+        type:[]
+    },
+},
+ { timestamps: true });
 module.exports.Player = mongoose.model('Player', PlayerSchema);

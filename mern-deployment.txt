@@ -1,0 +1,112 @@
+//make a github repo, name it MERN-Deployment
+//make sure your .gitignore has /node_modules AND .env
+
+cd client
+npm run build
+
+cd ..
+git init
+git add .
+git commit -m "initial commit"
+git remote add origin <YOUR_REPO_LINK>.git
+git push -u origin master
+
+//make a new instance and name it the same as your repo
+//choose ubuntu 64-bit, t2.micro, and make a key pair with the same repo name of type RSA/.pem
+//allow SSH all IPs and HTTP/HTTPS
+//create instance
+//now SSH into your instance
+
+sudo apt update
+sudo apt install nodejs npm nginx git -y
+
+//check your node version
+nodejs -v
+
+//we need to update it using Node Version Manager
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+nvm list-remote
+nvm install v18.16.0
+
+//go to public IP for your instance and make sure Nginx is working
+//now clone your repo
+git clone <YOUR_REPO_LINK>.git
+export repoName=MERN-Deployment
+
+//echo your repo's variable and make sure you get the ACTUAL repo name as a response
+echo $repoName
+
+cd ~/$repoName/client
+sudo rm -rf /var/www/html 
+sudo mv build /var/www/html
+sudo service nginx restart
+
+//go to public IP for your instance and check if you see the project's frontEnd
+//now paste this command to change all localhost into "/" so the instance can understand it
+
+sudo grep -rl localhost /var/www/html | xargs sed -i 's/http:\/\/localhost:8000//g'
+
+cd ~/$repoName/server
+npm i
+touch .env
+sudo nano .env
+
+//paste this and change what you need
+PORT=8000
+DB=my_db
+# connection
+USERNAME=YOUR_ATLAS_USERNAME
+PASSWORD=YOUR_ATLAS_PASSWORD
+
+//ctrl+o to save
+//ctrl+x to exit
+
+//go to your instance's Security Groups > Edit Inbound Rules > Add Rule 
+//Custom TCP > port: 27017 > 0.0.0.0
+
+//open default in nano
+sudo rm /etc/nginx/sites-available/default
+sudo nano /etc/nginx/sites-available/default
+
+//paste this code
+# MERN-Deployment Configuration 1-16-2020
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name MERN-Deployment;
+    location /api {
+        proxy_pass http://localhost:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;    
+    }
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    error_page 404 /index.html;
+}
+
+//ctrl+o to save
+//ctrl+x to exit
+
+
+//go to mongoDB and add your server's public IP to the allowed networks
+
+cd ~/$repoName/server
+sudo service nginx restart
+node server.js
+
+//now to keep the backend working, paste this
+sudo npm i pm2 -g
+//if this doesn't work just remove ###sudo###
+pm2 start server.js
+pm2 status
+
+//pm2 status only displays the status of our backend, it should be "online"
+//DONE
